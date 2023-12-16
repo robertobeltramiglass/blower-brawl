@@ -44,7 +44,7 @@ const player = new Fighter({
     framesMax: 8,
     scale: 2.5,
     offset: {
-        x: 215,
+        x: 225,
         y: 157
     },
     sprites: {
@@ -79,12 +79,13 @@ const player = new Fighter({
     },
     attackBox: {
         offset: {
-            x: 100,
+            x: 97,
             y: 50
         },
-        width: 155,
+        width: 150,
         height: 50
-    }
+    },
+    attackFrame: 4
 })
 
 const enemy = new Fighter({
@@ -103,7 +104,7 @@ const enemy = new Fighter({
     framesHold: 8,
     scale: 2.5,
     offset: {
-        x: 215,
+        x: 225,
         y: 170
     },
     sprites: {
@@ -138,12 +139,13 @@ const enemy = new Fighter({
     },
     attackBox: {
         offset: {
-            x: -170,
+            x: 85,
             y: 50
         },
-        width: 170,
+        width: 150,
         height: 50
-    }
+    },
+    attackFrame: 2
 })
 
 keys = {
@@ -183,6 +185,13 @@ function animate() {
     shop.update()
     c.fillStyle = 'rgba(255, 255, 255, 0.2)'
     c.fillRect(0, 0, canvas.width, canvas.height)
+    /* c.fillStyle = 'rgba(0, 255, 0)'
+    c.fillRect(player.position.x, player.position.y, player.width, player.height)
+    c.fillRect(enemy.position.x, enemy.position.y, enemy.width, enemy.height)
+    c.fillStyle = 'rgba(0, 0, 0)'
+    c.fillRect(player.attackBox.position.x, player.attackBox.position.y, player.attackBox.width, player.attackBox.height)
+    c.fillRect(enemy.attackBox.position.x, enemy.attackBox.position.y, enemy.attackBox.width, enemy.attackBox.height)
+ */
     player.update()
     enemy.update()
 
@@ -236,7 +245,7 @@ function animate() {
             rectangle1: player , 
             rectangle2: enemy }) &&
             player.isAttacking && 
-            player.framesCurrent === 4
+            player.framesCurrent === player.attackFrame
         ) {
             enemy.takeHit()
             player.isAttacking = false
@@ -255,7 +264,7 @@ function animate() {
     if (
         rectangularCollision({ rectangle1: enemy , rectangle2: player }) &&
         enemy.isAttacking && 
-        enemy.framesCurrent === 2
+        enemy.framesCurrent === enemy.attackFrame
         ) {
             player.takeHit()
             enemy.isAttacking = false
