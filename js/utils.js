@@ -1,4 +1,6 @@
-function rectangularCollision({ rectangle1, rectangle2 }){
+import { player, enemy } from "./gameObjects.js"
+
+export function rectangularCollision({ rectangle1, rectangle2 }){
     return (
          rectangle1.attackBox.position.y + rectangle1.attackBox.height >= rectangle2.position.y &&
         rectangle1.attackBox.position.y <= rectangle2.position.y + rectangle2.height && 
@@ -20,7 +22,7 @@ function rectangularCollision({ rectangle1, rectangle2 }){
     )
 }
 
-function determineWinner({player, enemy, timerId}) {
+export function determineWinner({player, enemy, timerId}) {
     clearTimeout(timerId)
     document.querySelector('#displayText').style.display = 'flex'
         if(player.health === enemy.health) {
@@ -35,7 +37,7 @@ function determineWinner({player, enemy, timerId}) {
 let timer = 60
 let timerId
 
-function decreaseTimer() {
+export function decreaseTimer() {
         if (timer > 0) {
             timerId = setTimeout(decreaseTimer, 1000)
             timer--

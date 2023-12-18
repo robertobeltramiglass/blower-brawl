@@ -1,4 +1,6 @@
-class Sprite {
+import { canvas, c, gravity, floorOffset } from "./gameConfig.js";
+
+export class Sprite {
     constructor({ 
         position, 
         imageSrc, 
@@ -67,7 +69,7 @@ class Sprite {
     }
 }
 
-class Fighter extends Sprite {
+export class Fighter extends Sprite {
     constructor({ 
         position, 
         velocity, 
