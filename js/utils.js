@@ -38,7 +38,7 @@ let timer = 60
 let timerId
 
 export function decreaseTimer() {
-        if (timer > 0) {
+        if (timer > 0 && player.health > 0 && enemy.health > 0) {
             timerId = setTimeout(decreaseTimer, 1000)
             timer--
             document.querySelector('#timer').innerHTML = timer

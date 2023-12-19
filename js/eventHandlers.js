@@ -1,6 +1,5 @@
 import { player, enemy } from "./gameObjects.js"
-import { Projectile } from "./classes.js";
-import { keys, canvas, jumpSpeed, floorOffset, projectiles } from "./gameConfig.js";
+import { keys, canvas, jumpSpeed, floorOffset } from "./gameConfig.js";
 import { projectile } from "./projectile.js";
 
 export function keyDownHandler(event) {

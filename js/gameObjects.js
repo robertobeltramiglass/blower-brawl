@@ -1,4 +1,5 @@
-import { Sprite, Fighter, Projectile } from "./classes.js"
+import { Fighter } from "./classes/Fighter.js"
+import { Sprite } from "./classes/Sprite.js"
 import { canvas} from "./gameConfig.js";
 
 export const background = new Sprite({
@@ -141,36 +142,34 @@ export const enemy = new Fighter({
     attackFrame: 2
 })
 
-// export const projectile = new Projectile({
-//     position: {
-//         x: enemy.position.x,
-//         y: enemy.position.y
-//     },
-//     velocity: {
-//         x: -10,
-//         y: 0
-//     },
-//     imageSrc: './img/projectiles/GlassProjectile.png',
-//     framesMax: 4,
-//     framesHold: 4,
-//     scale: 1,
-//     offset: {
-//         x: 0,
-//         y: -enemy.height/2
-//     },
-//     sprites: {
-//         travelling: {
-//             imageSrc: './img/projectiles/GlassProjectile.png',
-//             framesMax: 4
-//         }
-//     },
-//     attackBox: {
-//         offset: {
-//             x: 85,
-//             y: 50
-//         },
-//         width: 150,
-//         height: 50
-//     },
-//     attackFrame: 2
-// })
+export function projectile(owner) {
+    projectiles.push(new Projectile({
+        position: {
+                x: owner.position.x,
+                y: owner.position.y
+            },
+        velocity: {
+                x: -10,
+                y: -15
+            },
+        attackBox: {
+            offset: {
+                x: 0,
+                y: -owner.height/2
+            },
+            width: 32,
+            height: 32
+        },
+        lastDirection: owner.lastDirection,
+        imageSrc: './img/projectiles/GlassProjectile.png',
+        framesMax: 4,
+        framesHold: 4,
+        scale: 1,
+        owner: owner.name,
+        offset: {
+            x: 0,
+            y: 0
+        }
+    }))
+}
+

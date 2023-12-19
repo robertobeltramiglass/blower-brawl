@@ -1,5 +1,5 @@
 import { projectiles } from "./gameConfig.js"
-import { Projectile } from "./classes.js"
+import { Projectile } from "./classes/Projectile.js"
 
 export function projectile(owner) {
     projectiles.push(new Projectile({

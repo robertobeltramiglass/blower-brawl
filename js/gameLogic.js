@@ -153,24 +153,4 @@ export function animate() {
     if(player.health <= 0 || enemy.health <= 0) {
         determineWinner({player, enemy, timerId})
     }
-/*
-    OLD attackbox collision detection, checks for collision based on sprites position relative to each other
-    instead of moving the attackbox based on last direction key the player pressed
-    if (player.isAttacking &&
-        ((player.position.x + player.attackBox.width > enemy.position.x && 
-        player.attackBox.position.x < enemy.position.x) || 
-        (enemy.position.x + enemy.width < player.position.x + player.attackBox.width &&
-        enemy.position.x + enemy.attackBox.width > player.position.x)) &&
-        player.position.y + player.attackBox.height > enemy.position.y) {
-            console.log('player hit')
-        } 
-    if (enemy.isAttacking &&
-        ((enemy.position.x + enemy.attackBox.width > player.position.x && 
-        enemy.attackBox.position.x < player.position.x) || 
-        (player.position.x + player.width < enemy.position.x + enemy.attackBox.width &&
-        player.position.x + player.attackBox.width > enemy.position.x)) &&
-        enemy.position.y + enemy.attackBox.height > player.position.y) {
-            console.log('enemy hit')
-        }
-*/
 }
