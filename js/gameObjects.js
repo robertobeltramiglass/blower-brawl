@@ -1,4 +1,4 @@
-import { Sprite, Fighter } from "./classes.js"
+import { Sprite, Fighter, Projectile } from "./classes.js"
 import { canvas} from "./gameConfig.js";
 
 export const background = new Sprite({
@@ -25,16 +25,16 @@ export const shop = new Sprite({
 export const player = new Fighter({
     position: {
         x: 200,
-        y: 50
+        y: 310
     },
     velocity: {
         x: 0,
         y: 0
     },
-    spriteColor: 'red',
     lastDirection: 'forward',
     imageSrc: './img/samuraiMack/Idle.png',
     framesMax: 8,
+    name: 'player',
     scale: 2.5,
     offset: {
         x: 225,
@@ -84,16 +84,16 @@ export const player = new Fighter({
 export const enemy = new Fighter({
     position: {
         x: canvas.width - 200,
-        y: 50
+        y: 310
     },
     velocity: {
         x: 0,
         y: 0
     },
-    spriteColor: 'blue',
     lastDirection: 'backward',
     imageSrc: './img/kenji/Idle.png',
     framesMax: 4,
+    name: 'enemy',
     framesHold: 8,
     scale: 2.5,
     offset: {
@@ -140,3 +140,37 @@ export const enemy = new Fighter({
     },
     attackFrame: 2
 })
+
+// export const projectile = new Projectile({
+//     position: {
+//         x: enemy.position.x,
+//         y: enemy.position.y
+//     },
+//     velocity: {
+//         x: -10,
+//         y: 0
+//     },
+//     imageSrc: './img/projectiles/GlassProjectile.png',
+//     framesMax: 4,
+//     framesHold: 4,
+//     scale: 1,
+//     offset: {
+//         x: 0,
+//         y: -enemy.height/2
+//     },
+//     sprites: {
+//         travelling: {
+//             imageSrc: './img/projectiles/GlassProjectile.png',
+//             framesMax: 4
+//         }
+//     },
+//     attackBox: {
+//         offset: {
+//             x: 85,
+//             y: 50
+//         },
+//         width: 150,
+//         height: 50
+//     },
+//     attackFrame: 2
+// })

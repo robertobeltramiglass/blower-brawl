@@ -54,8 +54,6 @@ export class Sprite {
         }
     }
 
-        
-
     animateFrame() {
         this.framesElapsed++
         if (this.framesElapsed % this.framesHold === 0) {
@@ -73,8 +71,8 @@ export class Fighter extends Sprite {
     constructor({ 
         position, 
         velocity, 
-        spriteColor, 
-        imageSrc, 
+        imageSrc,
+        name,
         scale = 1, 
         framesMax = 1,
         verticalFramesMax = 2,
@@ -102,7 +100,6 @@ export class Fighter extends Sprite {
         this.velocity = velocity
         this.width = 50
         this.height = 150
-        this.spriteColor = spriteColor
         this.lastKey
         this.attackBox = {
             position: {
@@ -119,6 +116,7 @@ export class Fighter extends Sprite {
         this.sprites = sprites
         this.dead = false
         this.attackFrame = attackFrame
+        this.name = name
 
         for (const sprite in this.sprites) {
             sprites[sprite].image = new Image()
@@ -127,7 +125,7 @@ export class Fighter extends Sprite {
     }
 
     update() { //modifies position based on velocity and gravity.
-        this.draw(this.spriteColor)
+        this.draw()
         if (!this.dead) this.animateFrame()
 
         if (this.lastDirection === 'forward') {
@@ -158,8 +156,8 @@ export class Fighter extends Sprite {
         this.isAttacking = true
     }
 
-    takeHit() {
-        this.health -= 10
+    takeHit(damage) {
+        this.health -= damage
         if (this.health <= 0) {
             this.switchSprite('death')
         } else {
@@ -221,4 +219,71 @@ export class Fighter extends Sprite {
         //}
     }
 
+}
+
+export class Projectile extends Sprite {
+    constructor({ 
+        position, 
+        velocity,
+        lastDirection, 
+        imageSrc,
+        scale = 1, 
+        framesMax = 1,
+        verticalFramesMax = 2,
+        framesCurrent = 0,
+        framesElapsed = 0,
+        framesHold = 5,
+        offset = {x: 0, y: 0},
+        sprites,
+        owner,
+        attackBox = { offset: {}, width: undefined, height: undefined},
+        attackFrame
+    }) {
+        super({
+            position,
+            imageSrc,
+            scale,
+            framesMax,
+            framesCurrent,
+            framesElapsed,
+            framesHold,
+            offset,
+            verticalFramesMax
+        })
+        this.lastDirection = lastDirection
+        this.velocity = velocity
+        this.width = 32
+        this.height = 32
+        this.lastKey
+        this.attackBox = {
+            position: {
+                x: this.position.x,
+                y: this.position.y
+            },
+            offset: attackBox.offset,
+            width: attackBox.width,
+            height: attackBox.height
+        }
+        this.isAttacking
+        this.health = 100
+        this.sprites = sprites
+        this.dead = false
+        this.attackFrame = attackFrame
+        this.owner = owner
+        if (this.lastDirection === 'forward') this.velocity.x = -this.velocity.x;
+        for (const sprite in this.sprites) {
+            sprites[sprite].image = new Image()
+            sprites[sprite].image.src = sprites[sprite].imageSrc
+        }
+    }
+
+        update() { //modifies position based on velocity and gravity.
+            this.draw()
+            this.animateFrame()
+            this.position.x += this.velocity.x
+            this.position.y += this.velocity.y
+            this.attackBox.position.x = this.position.x
+            this.attackBox.position.y = this.position.y
+            this.velocity.y += gravity //makes sprite affected by gravity
+        }
 }

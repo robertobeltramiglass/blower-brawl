@@ -1,5 +1,7 @@
 import { player, enemy } from "./gameObjects.js"
-import { keys, canvas, jumpSpeed, floorOffset } from "./gameConfig.js";
+import { Projectile } from "./classes.js";
+import { keys, canvas, jumpSpeed, floorOffset, projectiles } from "./gameConfig.js";
+import { projectile } from "./projectile.js";
 
 export function keyDownHandler(event) {
     
@@ -23,6 +25,9 @@ export function keyDownHandler(event) {
                     player.velocity.y = jumpSpeed
                 }
                 break
+            case 'e':
+                projectile(player)
+                break
             }       
     }
     if(!enemy.dead) {
@@ -44,6 +49,9 @@ export function keyDownHandler(event) {
                 if (enemy.position.y + enemy.height >= canvas.height - floorOffset) {
                     enemy.velocity.y = jumpSpeed
                 }
+                break
+            case 'o':
+                projectile(enemy)
                 break
         }
     }

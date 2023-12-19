@@ -1,5 +1,5 @@
 import { rectangularCollision, determineWinner } from './utils.js';
-import { canvas, c, speed, timerId, keys } from "./gameConfig.js";
+import { canvas, c, speed, timerId, keys, projectiles, floorOffset } from "./gameConfig.js";
 import { background, shop, player, enemy } from './gameObjects.js';
 
 export function animate() {
@@ -8,17 +8,63 @@ export function animate() {
     c.fillRect(0, 0, canvas.width, canvas.height)
     background.update()
     shop.update()
-    c.fillStyle = 'rgba(255, 255, 255, 0.2)'
-    c.fillRect(0, 0, canvas.width, canvas.height)
-    /* c.fillStyle = 'rgba(0, 255, 0)'
-    c.fillRect(player.position.x, player.position.y, player.width, player.height)
-    c.fillRect(enemy.position.x, enemy.position.y, enemy.width, enemy.height)
-    c.fillStyle = 'rgba(0, 0, 0)'
-    c.fillRect(player.attackBox.position.x, player.attackBox.position.y, player.attackBox.width, player.attackBox.height)
-    c.fillRect(enemy.attackBox.position.x, enemy.attackBox.position.y, enemy.attackBox.width, enemy.attackBox.height)
- */
+    // c.fillStyle = 'rgba(255, 255, 255, 0.2)'
+    // c.fillRect(0, 0, canvas.width, canvas.height)
+    // c.fillStyle = 'rgba(0, 255, 0)'
+    // c.fillRect(player.position.x, player.position.y, player.width, player.height)
+    // c.fillRect(enemy.position.x, enemy.position.y, enemy.width, enemy.height)
+    // c.fillStyle = 'rgba(0, 0, 0)'
+    // c.fillRect(player.attackBox.position.x, player.attackBox.position.y, player.attackBox.width, player.attackBox.height)
+    // c.fillRect(enemy.attackBox.position.x, enemy.attackBox.position.y, enemy.attackBox.width, enemy.attackBox.height)
+    // projectiles.forEach((projectile, index) => {
+    //     c.fillStyle = 'rgba(0, 0, 255)'
+    //     c.fillRect(projectile.attackBox.position.x, projectile.attackBox.position.y, projectile.attackBox.width, projectile.attackBox.height)
+    // })
     player.update()
     enemy.update()
+    projectiles.forEach((projectile, index) => {
+        projectile.update()
+        console.log(projectile.owner)
+        if (    
+            rectangularCollision({ 
+                rectangle1: projectile , 
+                rectangle2: enemy }) &&
+            projectile.owner === 'player'
+        ) {
+            enemy.takeHit(5)
+            console.log('player hit')
+            gsap.to('#enemyHealth', {
+                width: enemy.health + '%'
+            })
+            setTimeout(() => {
+                projectiles.splice(index, 1);
+            }, 0)      
+        } else if (
+            rectangularCollision({ 
+                rectangle1: projectile , 
+                rectangle2: player }) &&
+            projectile.owner === 'enemy'
+        ) {
+            player.takeHit(5)
+            console.log('enemy hit')
+            gsap.to('#playerHealth', {
+                width: player.health + '%'
+            })
+            setTimeout(() => {
+                projectiles.splice(index, 1);
+            }, 0)   
+        }
+        if (
+            projectile.position.y + projectile.height >= canvas.height - floorOffset || 
+            projectile.position.x + projectile.width < 0 || 
+            projectile.position.x - projectile.width > canvas.width
+        ) {
+            setTimeout(() => {
+                projectiles.splice(index, 1);
+            }, 0)
+        }
+    })
+    
 
     // modifies player and enemy velocity based on what keys are pressed
     
@@ -72,13 +118,13 @@ export function animate() {
             player.isAttacking && 
             player.framesCurrent === player.attackFrame
         ) {
-            enemy.takeHit()
-            player.isAttacking = false
-            console.log('player hit')
-            gsap.to('#enemyHealth', {
-                width: enemy.health + '%'
-            })        
-        }
+        enemy.takeHit(20)
+        player.isAttacking = false
+        console.log('player hit')
+        gsap.to('#enemyHealth', {
+            width: enemy.health + '%'
+        })        
+    }
 
     // if player misses
     if (player.isAttacking && player.framesCurrent === 4) {
@@ -91,13 +137,13 @@ export function animate() {
         enemy.isAttacking && 
         enemy.framesCurrent === enemy.attackFrame
         ) {
-            player.takeHit()
-            enemy.isAttacking = false
-            console.log('enemy hit')
-            gsap.to('#playerHealth', {
-                width: player.health + '%'
-            }) 
-        }
+        player.takeHit(20)
+        enemy.isAttacking = false
+        console.log('enemy hit')
+        gsap.to('#playerHealth', {
+            width: player.health + '%'
+        }) 
+    }
     
     // if enemy misses
     if (enemy.isAttacking && enemy.framesCurrent === 2) {

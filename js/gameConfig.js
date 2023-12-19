@@ -5,6 +5,7 @@ export const speed = 5
 export const jumpSpeed = -20
 export const floorOffset = 96
 export let timerId
+export let projectiles = []
 
 export const keys = {
     a:{
@@ -19,6 +20,9 @@ export const keys = {
     s:{
         pressed: false
     },
+    e:{
+        pressed: false
+    },
     i:{
         pressed: false
     },
@@ -30,7 +34,10 @@ export const keys = {
     },
     k:{
         pressed: false
-    }
+    },
+    o:{
+        pressed: false
+    },
 }
 
 canvas.width = 1024
